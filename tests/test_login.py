@@ -1,18 +1,15 @@
-from playwright.sync_api import sync_playwright
+from pages.login_page import LoginPage
 
-def test_login():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
 
-        page = browser.new_page()
+def test_login(page):
 
-        page.goto("https://www.saucedemo.com")
+    page.goto("https://www.saucedemo.com")
 
-        page.fill("#user-name","standard-user")
-        page.fill("#password", "secret_sauce")
+    login = LoginPage(page)
 
-        page.click("#login-button")
+    login.login(
+        "standard_user",
+        "secret_sauce"
+    )
 
-        assert "inventory" in page.url
-
-        browser.close()
+    assert "inventory" in page.url
