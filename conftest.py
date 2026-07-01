@@ -1,5 +1,6 @@
 import pytest
 from playwright.sync_api import sync_playwright
+from config.settings import *
 
 
 @pytest.fixture(scope="session")
@@ -14,7 +15,7 @@ def browser():
 @pytest.fixture
 def context(browser):
 
-    context = browser.new_context()
+    context = browser.new_context(viewport=VIEWPORT)
 
     yield context
 
@@ -24,6 +25,8 @@ def context(browser):
 def page(context):
 
     page = context.new_page()
+
+    page.set_default_timeout(DEFAULT_TIMEOUT)
 
     yield page
 
